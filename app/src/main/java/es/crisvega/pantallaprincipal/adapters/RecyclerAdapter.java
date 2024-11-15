@@ -1,6 +1,9 @@
 package es.crisvega.pantallaprincipal.adapters;
 
+import android.annotation.SuppressLint;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -42,6 +45,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
         return recycleHolder;
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onBindViewHolder(@NonNull RecycleHolder holder, int position) {
         Equipo equipo = this.equipos.get(position);
@@ -67,6 +71,24 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
                 }
             }
         });
+
+        holder.txtDescripcion.setMovementMethod(new ScrollingMovementMethod());
+
+        holder.txtDescripcion.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // Permitir scroll solo si el contenido supera la altura visible
+                if (v.getId() == R.id.txt_item_desc) {
+                    v.getParent().requestDisallowInterceptTouchEvent(true);
+                    if (event.getAction() == MotionEvent.ACTION_UP) {
+                        v.getParent().requestDisallowInterceptTouchEvent(false);
+                    }
+                }
+                return false;
+            }
+        });
+
     }
 
     @Override
@@ -85,10 +107,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
             imgEquipo = (ImageView) itemView.findViewById(R.id.img_item);
             txtEquipo = (TextView) itemView.findViewById(R.id.txt_item_tittle);
             txtDescripcion = (TextView) itemView.findViewById(R.id.txt_item_desc);
+
         }
         public void bind(final Equipo equipo, final View.OnClickListener listener) {
             // Configura los datos en las vistas
-            imgEquipo.setImageResource(equipo.getImagenId()); // Suponiendo que tienes un método getImagen()
+            imgEquipo.setImageResource(equipo.getImagenId());
             txtEquipo.setText(equipo.getEquipo());
             txtDescripcion.setText(equipo.getDescripcion());
 
