@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.PantallaPrincipal" parent="Theme.Material3.DayNight">
         <!-- Customize your light theme here. -->
-       <!-- <item name="colorPrimary">#9B0F99</item> -->
     </style>
 
     <style name="Theme.PantallaPrincipal" parent="Base.Theme.PantallaPrincipal" />
+
 </resources>
