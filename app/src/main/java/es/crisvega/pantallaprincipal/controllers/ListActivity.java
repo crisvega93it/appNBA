@@ -1,6 +1,5 @@
 package es.crisvega.pantallaprincipal.controllers;
 
-import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -48,9 +47,12 @@ public class ListActivity extends AppCompatActivity {
 
             @Override
             public void onItemLongClick(Equipo equipo, int position) {
-                if(mActionMode == null)
+                if (mActionMode == null) {
                     selectedPosition = position;
                     mActionMode = startSupportActionMode(mActionCallback);
+                } else {
+                    mActionMode = null;
+                }
             }
 
             @Override
@@ -66,7 +68,7 @@ public class ListActivity extends AppCompatActivity {
 
     }
 
-    private ActionMode.Callback mActionCallback= new ActionMode.Callback(){
+    private ActionMode.Callback mActionCallback = new ActionMode.Callback() {
 
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
@@ -84,13 +86,13 @@ public class ListActivity extends AppCompatActivity {
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 
             int id = item.getItemId();
-            
-            if(id == R.id.item_papelera){
-                AlertDialog alertDialog = createAlertDialog("Mi titulo", "Esto es un mensaje de alerta");
+
+            if (id == R.id.item_papelera) {
+                AlertDialog alertDialog = createAlertDialog();
                 alertDialog.show();
                 mode.finish(); //
-            }else if(id == R.id.item_cancelar){
-                mode.finish(); // Termina el ActionMode sin hacer nada
+            } else if (id == R.id.item_cancelar) {
+                mode.finish();
                 return true;
             }
 
@@ -103,7 +105,7 @@ public class ListActivity extends AppCompatActivity {
         }
     };
 
-    private AlertDialog createAlertDialog(String miTitulo, String s) {
+    private AlertDialog createAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(ListActivity.this);
 
         builder.setMessage("¿Deseas eliminar el Item?")
@@ -112,9 +114,9 @@ public class ListActivity extends AppCompatActivity {
         builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                equipos.getEquipos().remove(selectedPosition); // Elimina el ítem de la lista
-                recAdapter.notifyItemRemoved(selectedPosition); // Refresca el RecyclerView
-                selectedPosition = -1; // Reinicia la posición seleccionada
+                equipos.getEquipos().remove(selectedPosition);
+                recAdapter.notifyItemRemoved(selectedPosition);
+                selectedPosition = -1;
                 Toast.makeText(ListActivity.this, "Borrado", Toast.LENGTH_SHORT).show();
             }
         });
