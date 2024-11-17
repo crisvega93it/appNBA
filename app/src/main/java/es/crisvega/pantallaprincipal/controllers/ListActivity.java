@@ -19,6 +19,8 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import es.crisvega.pantallaprincipal.R;
 import es.crisvega.pantallaprincipal.adapters.RecyclerAdapter;
 import es.crisvega.pantallaprincipal.models.Equipo;
@@ -124,8 +126,8 @@ public class ListActivity extends AppCompatActivity {
                 equipos.getEquipos().remove(selectedPosition);
                 recAdapter.notifyItemRemoved(selectedPosition);
                 selectedPosition = -1;
-                Toast.makeText(ListActivity.this, "Borrado", Toast.LENGTH_SHORT).show();
-            }
+                Snackbar.make(findViewById(android.R.id.content), "Borrado", Snackbar.LENGTH_SHORT)
+                        .show();            }
         });
 
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
